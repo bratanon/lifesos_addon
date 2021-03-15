@@ -1,0 +1,2 @@
+#lifesospy_mqtt==0.11.3
+-e git+https://github.com/bratanon/LifeSOSpy_MQTT.git@dev#egg=lifesospy_mqtt

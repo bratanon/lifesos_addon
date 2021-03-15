@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Community Hass.io Add-ons: LifeSOS to MQTT
+# Starts lifesos2mqtt
+# ==============================================================================
+bashio::log.info "Starting the LifeSOS to MQTT..."
+
+exec lifesospy_mqtt --workdir=/config/lifesos2mqtt
