@@ -26,6 +26,20 @@ if ! bashio::fs.directory_exists '/config/lifesos2mqtt'; then
     bashio::exit.nok
 fi
 
+# Raise warning if the directory exists, but the lifesos2mqtt config is missing.
+if ! bashio::fs.file_exists '/config/lifesos2mqtt/config.yaml'; then
+    bashio::log.fatal
+    bashio::log.fatal "Seems like the /config/lifesos2mqtt folder exists,"
+    bashio::log.fatal "however config.yaml wasn't found."
+    bashio::log.fatal
+    bashio::log.fatal "Remove or rename the /config/lifesos2mqtt folder"
+    bashio::log.fatal "and the add-on will create a new and fresh one"
+    bashio::log.fatal "for you."
+    bashio::log.fatal
+
+    bashio::exit.nok
+fi
+
 bashio::log.yellow '-----------------------------------------------------------'
 bashio::log.yellow 'List all enrolled devices for the base unit'
 bashio::log.yellow '-----------------------------------------------------------'

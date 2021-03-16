@@ -1,4 +1,4 @@
-ARG BUILD_FROM=hassioaddons/base:5.0.1
+ARG BUILD_FROM=ghcr.io/hassio-addons/base/amd64:9.1.5
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -9,20 +9,24 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 COPY requirements.txt /tmp/
 
 # Setup base
+ARG BUILD_ARCH=amd64
 # hadolint ignore=DL3003
 RUN \
     apk add --no-cache \
+        py3-pip \
         python3 \
-        git \
     \
-    && pip3 install \
+    && pip install \
         --no-cache-dir \
         --prefer-binary \
-        --find-links "https://wheels.hass.io/alpine-3.10/${BUILD_ARCH}/" \
+        --find-links "https://wheels.home-assistant.io/alpine-3.13/${BUILD_ARCH}/" \
         -r /tmp/requirements.txt
 
 # Copy root filesystem
 COPY rootfs /
+
+# Build arguments
+ARG BUILD_ARCH
 
 # Labels
 LABEL \
@@ -31,13 +35,4 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
-    maintainer="Emil Stjerneman <emil@stjerneman.com>" \
-    org.label-schema.description="MQTT client that interfaces with LifeSOS alarm systems." \
-    org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.name="LifeSOS2 to MQTT" \
-    org.label-schema.schema-version="1.0" \
-    org.label-schema.url="https://stjerneman.com" \
-    org.label-schema.usage="https://github.com/hassio-addons/addon-life2mqtt/tree/master/README.md" \
-    org.label-schema.vcs-ref=${BUILD_REF} \
-    org.label-schema.vcs-url="https://github.com/hassio-addons/addon-life2mqtt" \
-    org.label-schema.vendor="Community Hass.io Add-ons"
+    maintainer="Emil Stjerneman <emil@stjerneman.com>"
