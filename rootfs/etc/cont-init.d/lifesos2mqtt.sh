@@ -5,9 +5,9 @@
 # ==============================================================================
 # Creates lifesos configuration directory in case it is non-existing
 
-if ! bashio::fs.directory_exists '/config/lifesos2mqtt'; then
-    cp -R /root/lifesos2mqtt /config/lifesos2mqtt \
-        || bashio::exit.nok 'Failed to create configuration directory'
+if ! bashio::fs.file_exists '/config/lifesos2mqtt/config.yaml'; then
+    cp -R /root/lifesos2mqtt/default_config.yaml /config/lifesos2mqtt/config.yaml \
+        || bashio::exit.nok 'Failed to create configuration file'
 
     bashio::log.red
     bashio::log.red 'A default configuration file has been created for you'
