@@ -1,7 +1,8 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
 # Community Hass.io Add-ons: LifeSOS to MQTT
-# Starts lifesos2mqtt
+# Starts LifeSOS to MQTT
+# s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 bashio::log.info "Starting the LifeSOS to MQTT..."
 

@@ -23,72 +23,33 @@ mqtt:
 translator:
 
   # To automatically configure devices in Home Assistant, ensure this line
-  # matches the setting in Home Assistant's config file. Note any devices and
-  # switches will need to be assigned a 'ha_name"' to be exported.
+  # matches the setting in Home Assistant's config file.
   # Refer https://www.home-assistant.io/docs/mqtt/discovery/
-  ha_discovery_prefix: homeassistant
+  discovery_prefix: homeassistant
 
   # Topic and Payload to announce Home Assistant has come online. When received,
   # our MQTT client will send out the device configurations for discovery.
-  ha_birth_topic: homeassistant/status
-  ha_birth_payload: online
+  birth_topic: homeassistant/status
+  birth_payload: online
 
   # Provide a topic for the Base Unit here
   baseunit:
     topic: home/alarm
-    ha_name: "LifeSOS"
+    device_info:
+      name: "LifeSOS"
+      manufacturer: "LifeSOS"
+      model: "LS-20"
 
   # List your enrolled devices here and provide a topic
   # Hint: Leave this section empty to list enrolled devices in the
   # 'LifeSOS to MQTT' addon.
   devices:
-    #- device_id: '012cba'
-    #  topic: home/remote
-    #- device_id: '345def'
-    #  topic: home/front/door
-    #  ha_name: "Front Door"
-    #  ha_name_rssi: "Front Door RSSI"
-    #- device_id: '123abc'
-    #  topic: home/lounge/motion
-    #  auto_reset_interval: 180
-    #  ha_name: "Lounge Motion"
-    #  ha_name_rssi: "Lounge Motion RSSI"
-
-  # Uncomment any switches you own and provide a topic
-  switches:
-    #- switch_number: 1
-    #  topic: home/lounge/heater
-    #  ha_name: "Lounge Heater"
-    #- switch_number: 2
-    #  topic: home/room/switch02
-    #- switch_number: 3
-    #  topic: home/room/switch03
-    #- switch_number: 4
-    #  topic: home/room/switch04
-    #- switch_number: 5
-    #  topic: home/room/switch05
-    #- switch_number: 6
-    #  topic: home/room/switch06
-    #- switch_number: 7
-    #  topic: home/room/switch07
-    #- switch_number: 8
-    #  topic: home/room/switch08
-    #- switch_number: 9
-    #  topic: home/room/switch09
-    #- switch_number: 10
-    #  topic: home/room/switch10
-    #- switch_number: 11
-    #  topic: home/room/switch11
-    #- switch_number: 12
-    #  topic: home/room/switch12
-    #- switch_number: 13
-    #  topic: home/room/switch13
-    #- switch_number: 14
-    #  topic: home/room/switch14
-    #- switch_number: 15
-    #  topic: home/room/switch15
-    #- switch_number: 16
-    #  topic: home/room/switch16
+#    - device_id: '123456'
+#      topic: home/front/door
+#      device_info:
+#        name: "Front door magnet"
+#        manufacturer: "LifeSOS"
+#        model: "TX-3DSN"
 
 # Settings to configure logging
 # Valid severity levels are:

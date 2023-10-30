@@ -6,7 +6,11 @@
 # Creates lifesos configuration directory in case it is non-existing
 
 if ! bashio::fs.file_exists '/config/lifesos2mqtt/config.yaml'; then
-    cp -R /root/lifesos2mqtt/default_config.yaml /config/lifesos2mqtt/config.yaml \
+    if ! bashio::fs.directory_exists '/config/lifesos2mqtt/'; then
+      mkdir /config/lifesos2mqtt
+    fi
+
+    cp /root/lifesos2mqtt/default_config.yaml /config/lifesos2mqtt/config.yaml \
         || bashio::exit.nok 'Failed to create configuration file'
 
     bashio::log.red
@@ -21,22 +25,6 @@ if ! bashio::fs.file_exists '/config/lifesos2mqtt/config.yaml'; then
     bashio::log.red 'Enrolled devices will be listed in the logs if the'
     bashio::log.red 'connection to the host works.'
     bashio::log.red
-    bashio::log.red 'See https://lifesospy-mqtt.readthedocs.io'
-    bashio::log.red
-    bashio::exit.nok
-fi
-
-# Raise warning if the directory exists, but the lifesos2mqtt config is missing.
-if ! bashio::fs.file_exists '/config/lifesos2mqtt/config.yaml'; then
-    bashio::log.fatal
-    bashio::log.fatal "Seems like the /config/lifesos2mqtt folder exists,"
-    bashio::log.fatal "however config.yaml wasn't found."
-    bashio::log.fatal
-    bashio::log.fatal "Remove or rename the /config/lifesos2mqtt folder"
-    bashio::log.fatal "and the add-on will create a new and fresh one"
-    bashio::log.fatal "for you."
-    bashio::log.fatal
-
     bashio::exit.nok
 fi
 
