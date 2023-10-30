@@ -1,6 +1,6 @@
 ---
 name: LifeSOS to MQTT
-version: 2.0
+version: 2.1
 slug: lifesos2mqtt
 description: MQTT client that interfaces with LifeSOS alarm systems.
 arch:
