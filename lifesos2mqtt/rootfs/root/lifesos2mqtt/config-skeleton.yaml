@@ -3,8 +3,8 @@ lifesos:
 
   # Host and Port for the LifeSOS TCP Server to connect as a client,
   # or Port only to listen as a server for the LifeSOS TCP Client
-  host: 192.168.1.100
-  port: 1680
+  host: ''
+  port: ''
 
   # Master password, if needed by network interface
   password: ''
@@ -14,13 +14,14 @@ mqtt:
 
   # URI providing the details needed to connect to the MQTT broker
   # Refer https://github.com/mqtt/mqtt.github.io/wiki/URI-Scheme
-  uri: mqtt://username:password@127.0.0.1:1883
+  #uri: mqtt://username:password@127.0.0.1:1883
+  uri: ''
 
   # Unique client identifier; no need to change unless running multiple instances
   client_id: lifesos
 
-# Settings for the translator between LifeSOS and MQTT
-translator:
+# Settings for the adapter between LifeSOS and MQTT
+adapter:
 
   # To automatically configure devices in Home Assistant, ensure this line
   # matches the setting in Home Assistant's config file.
@@ -32,33 +33,9 @@ translator:
   birth_topic: homeassistant/status
   birth_payload: online
 
-  # Provide a topic for the Base Unit here
-  baseunit:
-    topic: home/alarm
-    device_info:
-      name: "LifeSOS"
-      manufacturer: "LifeSOS"
-      model: "LS-20"
+  # Provide a topic for the Base Unit
+  baseunit: {}
 
   # List your enrolled devices here and provide a topic
-  # Hint: Leave this section empty to list enrolled devices in the
-  # 'LifeSOS to MQTT' addon.
-  devices:
-#    - device_id: '123456'
-#      topic: home/front/door
-#      device_info:
-#        name: "Front door magnet"
-#        manufacturer: "LifeSOS"
-#        model: "TX-3DSN"
-
-# Settings to configure logging
-# Valid severity levels are:
-# critical, error, warning, info, debug
-logger:
-
-  default: info
-
-  #namespaces:
-  #  lifesospy: debug
-  #  lifesospy_mqtt: debug
-  #  paho.mqtt: debug
+  # Hint: Run 'list-devices' to get a list of device ids
+  devices: []

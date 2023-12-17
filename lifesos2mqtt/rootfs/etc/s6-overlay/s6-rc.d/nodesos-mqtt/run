@@ -1,0 +1,17 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Add-on: NodeSOS MQTT
+# Starts nodesos_mqtt
+# ==============================================================================
+declare -a options
+
+options+=(-c /config/lifesos2mqtt.yaml)
+
+if  bashio::var.true "$(bashio::config 'lifesos.verbose')"; then
+  options+=(-v)
+fi
+
+bashio::log.info "Starting the NodeSOS MQTT..."
+
+exec nodesos_mqtt start "${options[@]}"

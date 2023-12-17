@@ -1,15 +1,56 @@
 ---
 name: LifeSOS to MQTT
-version: 2.1
+version: 3.0
 slug: lifesos2mqtt
 description: MQTT client that interfaces with LifeSOS alarm systems.
+url: https://github.com/bratanon/lifesos_addon
 arch:
   - aarch64
   - amd64
+  - armv7
 startup: application
+hassio_api: true
 init: false
 map:
-  - config:rw
+  - addon_config:rw
 services:
   - mqtt:need
+options:
+  log_level: info
+  lifesos:
+    host: 192.168.1.100
+    port: 1680
+    password: ''
+    verbose: false
+  list_devices_on_start: false
+  baseunit:
+    topic: home/alarm
+    name: LifeSOS
+    manufacturer: LifeSOS
+    model: LS-20
+  devices:
+    - topic: home/kitchen/pir
+      id: 012cba
+      model: PIR
+      manufacturer: LifeSOS
+      name: Kitchen
+schema:
+  log_level: list(trace|debug|info|notice|warning|error|fatal)?
+  lifesos:
+    host: str
+    port: port
+    password: str?
+    verbose: bool?
+  list_devices_on_start: bool
+  baseunit:
+    topic: str
+    name: str?
+    manufacturer: str?
+    model: str?
+  devices:
+    - topic: str
+      id: str
+      name: str?
+      manufacturer: str?
+      model: str?
 

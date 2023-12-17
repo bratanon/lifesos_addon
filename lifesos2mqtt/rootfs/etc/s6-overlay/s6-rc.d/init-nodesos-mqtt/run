@@ -1,0 +1,56 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Add-on: LifeSOS to MQTT
+# Configures LifeSOS to MQTT before running
+# ==============================================================================
+# Require a LifeSOS Host
+bashio::config.require 'lifesos.host'
+
+# Require a LifeSOS Port
+bashio::config.require 'lifesos.port'
+
+cp /root/lifesos2mqtt/config-skeleton.yaml /config/lifesos2mqtt.yaml \
+  || bashio::exit.nok 'Failed to create configuration file'
+
+host=$(bashio::config 'lifesos.host' '192.168.1.100') \
+  yq -i '.lifesos.host = env(host)' /config/lifesos2mqtt.yaml  \
+    || bashio::exit.nok 'Failed set LifeSOS host'
+
+port=$(bashio::config 'lifesos.port' 1680) \
+  yq -i '.lifesos.port = env(port)' /config/lifesos2mqtt.yaml \
+    || bashio::exit.nok 'Failed set LifeSOS port'
+
+if bashio::config.has_value 'lifesos.password'; then
+  password=$(bashio::config 'lifesos.password') \
+    yq -i '.lifesos.password = env(password)' /config/lifesos2mqtt.yaml \
+      || bashio::exit.nok 'Failed set LifeSOS password'
+fi
+
+if bashio::var.true "$(bashio::services 'mqtt' 'ssl')"; then
+  lifesos_mqtt_protocol="mqtts"
+else
+  lifesos_mqtt_protocol="mqtt"
+fi
+
+lifesos_mqtt_uri="${lifesos_mqtt_protocol}://$(bashio::services 'mqtt' 'username'):$(bashio::services 'mqtt' 'password')@$(bashio::services 'mqtt' 'host'):$(bashio::services 'mqtt' 'port')"
+
+mqtt_uri=${lifesos_mqtt_uri} \
+  yq -i '.mqtt.uri = env(mqtt_uri)' /config/lifesos2mqtt.yaml \
+    || bashio::exit.nok 'Failed set MQTT uri'
+
+baseunit="$(bashio::config 'baseunit')" \
+  yq -i '.adapter.baseunit = (strenv(baseunit) | from_json | ... style="")' /config/lifesos2mqtt.yaml \
+    || bashio::exit.nok 'Failed set baseunit'
+
+devices="$(jq -s '.' <<< "$(bashio::config 'devices')")" \
+  yq -i '.adapter.devices += (strenv(devices) | from_json | ... style="")' /config/lifesos2mqtt.yaml \
+    || bashio::exit.nok 'Failed set devices'
+
+if  bashio::var.true "$(bashio::config 'list_devices_on_start')"; then
+  bashio::log.yellow '-----------------------------------------------------------'
+  bashio::log.yellow 'List all enrolled devices for the base unit'
+  bashio::log.yellow '-----------------------------------------------------------'
+
+  exec nodesos_mqtt list-devices -c /config/lifesos2mqtt.yaml
+fi

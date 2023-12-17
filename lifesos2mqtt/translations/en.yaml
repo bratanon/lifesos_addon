@@ -1,0 +1,22 @@
+---
+configuration:
+  log_level:
+    name: Log level
+    description: >-
+      Controls the level of log details the add-on provides.
+  lifesos:
+    name: LifeSOS
+    description: >-
+      See add-on documentation for usage details.
+  list_devices_on_start:
+    name: List devices on start
+    description: >-
+      List enrolled devices in the logs before starting the service
+  baseunit:
+    name: Base unit
+    description: >-
+      See add-on documentation for usage details.
+  devices:
+    name: Devices
+    description: >-
+      See add-on documentation for usage details.
