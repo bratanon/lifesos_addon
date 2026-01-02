@@ -6,7 +6,7 @@ FROM ${BUILD_FROM}
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ARG NODESOS_MQTT_VERSION="3.0.2"
+ARG NODESOS_MQTT_VERSION="3.0.3"
 
 # Setup base
 RUN \
